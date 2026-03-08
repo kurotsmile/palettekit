@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PaletteKit | Color Palette Generator</title>
+  <meta name="description" content="Generate harmonious color palettes and copy hex codes instantly for web and app design.">
+  <meta name="keywords" content="color palette generator,hex color tool,brand palette,ui color picker">
+  <meta name="author" content="Tran Thien Thanh">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PaletteKit - Color Palette Generator">
+  <meta property="og:description" content="Generate harmonious color palettes and copy hex codes instantly for web and app design.">
+  <meta property="og:url" content="https://palettekit.web.app">
+  <meta property="og:image" content="https://palettekit.web.app/favicon.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PaletteKit - Color Palette Generator">
+  <meta name="twitter:description" content="Generate harmonious color palettes and copy hex codes instantly for web and app design.">
+  <link rel="canonical" href="https://palettekit.web.app/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>:root {
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --text: #132238;
+  --muted: #5b6b80;
+  --brand: #0d6efd;
+  --line: #dce3ed;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Noto Sans", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top right, #dde9ff 0%, transparent 35%),
+    radial-gradient(circle at bottom left, #d9f5ea 0%, transparent 30%),
+    var(--bg);
+}
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+header {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 14px 32px rgba(19, 34, 56, 0.08);
+}
+h1 { margin: 0 0 8px; font-size: 2rem; }
+.sub { margin: 0; color: var(--muted); }
+main {
+  margin-top: 18px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 14px 32px rgba(19, 34, 56, 0.08);
+}
+.grid { display: grid; gap: 12px; }
+.grid.two { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+label { display: block; font-weight: 600; margin-bottom: 4px; }
+input, select, textarea, button {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+textarea { min-height: 130px; resize: vertical; }
+button {
+  background: linear-gradient(130deg, #0d6efd, #1ba19b);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover { opacity: 0.92; }
+.output, .panel {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  background: #fbfdff;
+}
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.swatch {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  cursor: pointer;
+}
+.swatch div { height: 68px; }
+.swatch code { display: block; text-align: center; padding: 8px; background: #fff; }
+canvas, img.preview {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.site-footer {
+  margin-top: 20px;
+  background: #0d1e33;
+  color: #dfe9f8;
+  border-radius: 16px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.site-footer h3 { margin: 0 0 8px; color: #fff; }
+.site-footer p { margin: 5px 0; word-break: break-word; }
+.site-footer a { color: #8cc7ff; }
+.note { color: var(--muted); font-size: .95rem; }
+</style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PaletteKit","description":"Generate harmonious color palettes and copy hex codes instantly for web and app design.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://palettekit.web.app"}</script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Color Palette Generator</h1>
+      <p class="sub">Generate harmonious color palettes and copy hex codes instantly for web and app design.</p>
+    </header>
+    <main>
+      <div class="grid two">
+      <div>
+        <label>Base Color</label>
+        <input id="baseColor" type="color" value="#0d6efd">
+      </div>
+      <div>
+        <label>Palette Type</label>
+        <select id="mode"><option value="mono">Monochrome</option><option value="analog">Analogous</option><option value="triad">Triad</option></select>
+      </div>
+    </div>
+    <div style="margin-top:10px" class="grid two">
+      <button id="genBtn">Generate Palette</button>
+      <button id="randBtn">Random Base</button>
+    </div>
+    <p class="note">Tip: click a swatch to copy HEX.</p>
+    <div id="swatches" class="swatches"></div>
+    </main>
+    
+<footer class="site-footer">
+  <div>
+    <h3>Contact</h3>
+    <p>Email: <a href="mailto:tranthienthanh93@gmail.com">tranthienthanh93@gmail.com</a></p>
+    <p>Web: <a href="https://carrotstore.web.app" target="_blank" rel="noopener">carrotstore.web.app</a></p>
+    <p>Phone: <a href="tel:+84978651577">+84978651577</a></p>
+    <p>Tiktok: <a href="https://www.tiktok.com/@kurotsmilethanh" target="_blank" rel="noopener">@kurotsmilethanh</a></p>
+  </div>
+  <div>
+    <h3>Donation</h3>
+    <p>PayPal: <a href="https://www.paypal.com/paypalme/kurotsmile" target="_blank" rel="noopener">https://www.paypal.com/paypalme/kurotsmile</a></p>
+    <p>Buy us a Coffee on Ko-fi: <a href="https://ko-fi.com/T6T210E258" target="_blank" rel="noopener">https://ko-fi.com/T6T210E258</a></p>
+  </div>
+</footer>
+  </div>
+  <script>const swatches = document.getElementById('swatches');
+const base = document.getElementById('baseColor');
+const mode = document.getElementById('mode');
+function hslToHex(h,s,l){
+  l/=100; const a=s*Math.min(l,1-l)/100;
+  const f=n=>{ const k=(n+h/30)%12; const c=l-a*Math.max(Math.min(k-3,9-k,1),-1); return Math.round(255*c).toString(16).padStart(2,'0'); };
+  return '#'+f(0)+f(8)+f(4);
+}
+function hexToHsl(hex){
+  const m=hex.replace('#','');
+  let r=parseInt(m.slice(0,2),16)/255,g=parseInt(m.slice(2,4),16)/255,b=parseInt(m.slice(4,6),16)/255;
+  const max=Math.max(r,g,b),min=Math.min(r,g,b); let h=0,s=0,l=(max+min)/2;
+  const d=max-min;
+  if(d){ s=d/(1-Math.abs(2*l-1));
+    switch(max){case r:h=60*(((g-b)/d)%6);break;case g:h=60*((b-r)/d+2);break;default:h=60*((r-g)/d+4);}
+  }
+  return [(h+360)%360,s*100,l*100];
+}
+function makePalette(){
+  const [h,s,l]=hexToHsl(base.value);
+  const angles = mode.value==='mono'?[0,0,0,0,0,0]:mode.value==='analog'?[-30,-15,0,15,30,45]:[0,120,240,30,150,270];
+  swatches.innerHTML='';
+  angles.forEach((a,i)=>{
+    const ll=Math.max(20,Math.min(82,l+(i-2.5)*8));
+    const hex=hslToHex((h+a+360)%360,s,ll);
+    const el=document.createElement('div'); el.className='swatch';
+    el.innerHTML='<div style="background:'+hex+'"></div><code>'+hex+'</code>';
+    el.onclick=()=>navigator.clipboard.writeText(hex);
+    swatches.appendChild(el);
+  });
+}
+document.getElementById('genBtn').onclick=makePalette;
+document.getElementById('randBtn').onclick=()=>{base.value='#'+Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');makePalette();};
+makePalette();</script>
+</body>
+</html>
